@@ -1,43 +1,37 @@
 import os
-from selene import browser, have
+from selene import have
+
+from pages.registration_page import RegistrationPage
 
 
 def test_student_registration_form():
-    browser.open('/automation-practice-form')
-    browser.element('#firstName').type('Ivan')
-    browser.element('#lastName').type('Ivanov')
-    browser.element('#userEmail').type('Ivan@example.com')
-    browser.element('label[for="gender-radio-1"]').click()
-    browser.element('#userNumber').type('9881234567')
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').click()
-    browser.element('[value="9"]').click()
-    browser.element('.react-datepicker__year-select').click()
-    browser.element('[value="2000"]').click()
-    browser.element('.react-datepicker__day--002').click()
-    browser.element('#subjectsInput').type('Chemistry').press_enter()
-    browser.element('label[for="hobbies-checkbox-1"]').click()
-    browser.element('label[for="hobbies-checkbox-2"]').click()
-    browser.element('label[for="hobbies-checkbox-3"]').click()
-    browser.element('#uploadPicture').send_keys(os.path.abspath('resources/Ivan.jpg'))
-    browser.element('#currentAddress').type('Mira str., 5')
-    browser.element('#state').click()
-    browser.element('[id="react-select-3-option-0"]').click()
-    browser.element('//*[.="NCR"]').click()
-    browser.element('#city').click()
-    browser.element('//*[.="Delhi"]').click()
-    browser.element('#state').click()
-    browser.element('#submit').click().press_enter()
+    registration_page = RegistrationPage()
 
-    browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
-    browser.element('.table-responsive').should(have.text('Ivan'))
-    browser.element('.table-responsive').should(have.text('Ivanov'))
-    browser.element('.table-responsive').should(have.text('Ivan@example.com'))
-    browser.element('.table-responsive').should(have.text('Male'))
-    browser.element('.table-responsive').should(have.text('9881234567'))
-    browser.element('.table-responsive').should(have.text('02 October,2000'))
-    browser.element('.table-responsive').should(have.text('Chemistry'))
-    browser.element('.table-responsive').should(have.text('Sports, Reading, Music'))
-    browser.element('.table-responsive').should(have.text('Ivan.jpg'))
-    browser.element('.table-responsive').should(have.text('Mira str., 5'))
-    browser.element('.table-responsive').should(have.text('NCR Delhi'))
+    registration_page.open_practice_form_page()
+    registration_page.fill_first_name('Ivan')
+    registration_page.fill_last_name('Ivanov')
+    registration_page.fill_email('Ivan@example.com')
+    registration_page.fill_gender()
+    registration_page.fill_phone_number('9881234567')
+    registration_page.fill_date_of_birth('2', 'October', '2000')
+    registration_page.fill_subjects('Chemistry')
+    registration_page.fill_hobbies()
+    registration_page.upload_image('resources/Ivan.jpg')
+    registration_page.fill_current_address('Mira str., 5')
+    registration_page.fill_state('NCR')
+    registration_page.fill_city('Delhi')
+    registration_page.submit()
+    registration_page.should_registered_user_with.should(
+        have.exact_texts(
+            'Ivan Ivanov',
+            'Ivan@example.com',
+            'Male',
+            '9881234567',
+            '02 October,2000',
+            'Chemistry',
+            'Sports, Reading, Music',
+            'Ivan.jpg',
+            'Mira str., 5',
+            'NCR Delhi'
+        )
+    )
