@@ -1,6 +1,4 @@
-import os
 from selene import have
-
 from pages.registration_page import RegistrationPage
 
 
@@ -16,7 +14,7 @@ def test_student_registration_form():
     registration_page.fill_date_of_birth('2', 'October', '2000')
     registration_page.fill_subjects('Chemistry')
     registration_page.fill_hobbies()
-    registration_page.upload_image('resources/Ivan.jpg')
+    registration_page.upload_image('Ivan.jpg')
     registration_page.fill_current_address('Mira str., 5')
     registration_page.fill_state('NCR')
     registration_page.fill_city('Delhi')

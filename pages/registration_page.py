@@ -1,6 +1,8 @@
 import os
 from selene import browser, have, command
 
+from tests.conftest import path
+
 
 class RegistrationPage:
     def __init__(self):
@@ -39,7 +41,7 @@ class RegistrationPage:
         browser.element('label[for="hobbies-checkbox-3"]').click()
 
     def upload_image(self, file):
-        browser.element('#uploadPicture').send_keys(os.path.abspath(file))
+        browser.element('#uploadPicture').send_keys(path(file))
 
     def fill_current_address(self, value):
         browser.element('#currentAddress').type(value)
